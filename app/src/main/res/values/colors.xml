@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary green - bright from mockup -->
+    <color name="primary">#4CAF50</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#E8F5E9</color>
+    <color name="on_primary_container">#1B5E20</color>
+    <color name="secondary">#81C784</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#C8E6C9</color>
+    <color name="on_secondary_container">#1B5E20</color>
+    <color name="tertiary">#FF7043</color>
+    <color name="on_tertiary">#FFFFFF</color>
+    <color name="tertiary_container">#FBE9E7</color>
+    <color name="on_tertiary_container">#BF360C</color>
+    <color name="error">#B3261E</color>
+    <color name="on_error">#FFFFFF</color>
+
+    <!-- Clean white/light backgrounds -->
+    <color name="background">#F8F9FA</color>
+    <color name="on_background">#1C1B1F</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#1C1B1F</color>
+    <color name="surface_variant">#F3F4F6</color>
+    <color name="on_surface_variant">#6B7280</color>
+
+    <!-- Tag colors -->
+    <color name="tag_green_bg">#E8F5E9</color>
+    <color name="tag_green_text">#2E7D32</color>
+    <color name="tag_blue_bg">#E3F2FD</color>
+    <color name="tag_blue_text">#1565C0</color>
+    <color name="tag_orange_bg">#FFF3E0</color>
+    <color name="tag_orange_text">#E65100</color>
+
+    <!-- Chip colors -->
+    <color name="chip_selected_bg">#4CAF50</color>
+    <color name="chip_selected_text">#FFFFFF</color>
+    <color name="chip_unselected_bg">#FFFFFF</color>
+    <color name="chip_unselected_text">#374151</color>
+    <color name="chip_border">#E5E7EB</color>
 </resources>
