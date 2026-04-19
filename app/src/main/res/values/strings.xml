@@ -1,3 +1,110 @@
 <resources>
-    <string name="app_name">Meal Application</string>
+    <string name="app_name">Meal Planner</string>
+    <string name="search_hint">Search recipes...</string>
+    <string name="categories_title">Categories</string>
+    <string name="featured_recipes_title">Featured Recipes</string>
+    <string name="top_searches_title">Top Searches</string>
+    <string name="see_all">See All</string>
+    <string name="discover_recipes">Discover Recipes</string>
+    <string name="discover_subtitle">Find your next favourite meal</string>
+    <string name="meals_title">Meals</string>
+    <string name="all_recipes">All Recipes</string>
+    <string name="recipe_details_title">Recipe Details</string>
+    <string name="favorites_title">My Favorites</string>
+    <string name="meal_plan_title">Weekly Meal Plan</string>
+    <string name="meal_plan_subtitle">Plan your meals for the week</string>
+
+    <string name="ingredients_label">Ingredients</string>
+    <string name="instructions_label">Instructions</string>
+
+    <string name="btn_save_favorite">Save</string>
+    <string name="btn_remove_favorite">Saved</string>
+    <string name="btn_share">Share</string>
+    <string name="btn_add_to_plan">Add to Plan</string>
+    <string name="btn_retry">Retry</string>
+    <string name="btn_reset_filters">Reset Filters</string>
+
+    <string name="error_no_internet">No internet connection.\nPlease check your network.</string>
+    <string name="error_loading_data">Failed to load data.\nPlease try again.</string>
+    <string name="empty_favorites">No saved recipes yet.\nTap the heart icon on any recipe!</string>
+    <string name="empty_meals">No meals found.</string>
+    <string name="empty_plan">Tap + on any recipe to plan</string>
+    <string name="no_results_filters">No results found for the selected filter.</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_recipes">Recipes</string>
+    <string name="nav_browse">Explore</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="nav_planner">Planner</string>
+
+    <string name="filter_all">All</string>
+    <string name="filter_vegan">Vegan</string>
+    <string name="filter_vegetarian">Vegetarian</string>
+    <string name="filter_gluten_free">Gluten-Free</string>
+    <string name="filter_seafood">Seafood</string>
+
+    <!-- Auth / Profile -->
+    <string name="login_title">Welcome Back</string>
+    <string name="login_subtitle">Sign in to your account</string>
+    <string name="signup_title">Create Account</string>
+    <string name="signup_subtitle">Join us and start planning meals</string>
+    <string name="profile_title">My Account</string>
+    <string name="hint_name">Full Name</string>
+    <string name="hint_email">Email Address</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="btn_login">Sign In</string>
+    <string name="btn_signup">Create Account</string>
+    <string name="btn_logout">Log Out</string>
+    <string name="btn_change_password">Change Password</string>
+    <string name="btn_delete_account">Delete Account</string>
+    <string name="link_no_account">Don\'t have an account? Sign up</string>
+    <string name="link_have_account">Already have an account? Sign in</string>
+    <string name="error_empty_fields">Please fill in all fields</string>
+    <string name="error_invalid_email">Please enter a valid email</string>
+    <string name="error_password_short">Password must be at least 6 characters</string>
+    <string name="error_passwords_mismatch">Passwords do not match</string>
+    <string name="error_email_taken">This email is already registered</string>
+    <string name="error_invalid_credentials">Incorrect email or password</string>
+    <string name="confirm_logout_title">Log Out?</string>
+    <string name="confirm_logout_message">Are you sure you want to log out?</string>
+    <string name="confirm_delete_title">Delete Account?</string>
+    <string name="confirm_delete_message">This will permanently delete your account and all data. This cannot be undone.</string>
+    <string name="delete">Delete</string>
+    <string name="favorites_count">Saved Recipes</string>
+    <string name="plan_count">Planned Meals</string>
+    <string name="password_changed">Password changed successfully</string>
+    <string name="hint_current_password">Current Password</string>
+    <string name="hint_new_password">New Password</string>
+
+    <string name="select_day_title">Choose a Day</string>
+    <string name="select_slot_title">Choose a Meal Time</string>
+    <string name="confirm_replace_title">Replace Meal?</string>
+    <string name="confirm_replace_message">A meal is already planned for %1$s at %2$s. Replace it?</string>
+    <string name="replace">Replace</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="added_to_favorites">Added to Favorites ♥</string>
+    <string name="removed_from_favorites">Removed from Favorites</string>
+    <string name="planned_for">Planned for %1$s (%2$s)</string>
+    <string name="share_subject">Check out this recipe: %1$s</string>
+    <string name="share_body">Check out this recipe: %1$s\n\nSource: %2$s</string>
+    <string name="share_chooser_title">Share via</string>
+
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <string name="slot_breakfast">Breakfast</string>
+    <string name="slot_snack">Snack</string>
+    <string name="slot_lunch">Lunch</string>
+    <string name="slot_evening_snack">Evening Snack</string>
+    <string name="slot_dinner">Dinner</string>
+
+    <string name="day_empty_plan">No meals planned yet</string>
+    <string name="search_results">Results for \"%1$s\"</string>
 </resources>
