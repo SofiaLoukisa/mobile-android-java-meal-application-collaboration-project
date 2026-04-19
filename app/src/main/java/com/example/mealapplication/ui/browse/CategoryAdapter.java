@@ -1,4 +1,28 @@
-package com.example.mealapplication.ui.browse;
+package com.example.mealapplication.adapter;
 
-public class CategoryAdapter {
-}
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mealapplication.R;
+import com.example.mealapplication.model.Category;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+
+    private List<Category> categories = new ArrayList<>();
+    private OnCategoryClickListener listener;
+
+    // Interface για click
+    public interface OnCategoryClickListener {
+        void onCategoryClick(Category category);
+    }
+
+    public CategoryAdapter(OnCategoryClickListener listener) {
+        this.listener = listener;
+    }
