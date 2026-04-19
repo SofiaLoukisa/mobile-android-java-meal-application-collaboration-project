@@ -1,4 +1,4 @@
-package com.example.mealapplication.data.local;
+package com.example.mealapplication.local;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

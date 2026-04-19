@@ -1,4 +1,4 @@
-package com.example.mealapplication.data.local;
+package com.example.mealapplication.local;
 
 import android.content.Context;
 import androidx.room.Database;

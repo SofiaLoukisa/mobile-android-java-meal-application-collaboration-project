@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class MealResponse {
-    @SerializedName("meals")
+    @SerializedName("com/example/mealapplication/ui/meals")
     private List<Meal> meals;
 
     public List<Meal> getMeals() { return meals; }
