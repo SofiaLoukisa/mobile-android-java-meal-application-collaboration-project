@@ -26,3 +26,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public CategoryAdapter(OnCategoryClickListener listener) {
         this.listener = listener;
     }
+
+    // ViewHolder
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView categoryName;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            categoryName = itemView.findViewById(R.id.categoryName);
+        }
+    }
