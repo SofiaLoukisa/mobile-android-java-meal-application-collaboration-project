@@ -137,3 +137,20 @@ public class ProfileActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void confirmLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.confirm_logout_title)
+                .setMessage(R.string.confirm_logout_message)
+                .setPositiveButton(R.string.btn_logout, (d, w) -> logout())
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void logout() {
+        userPrefs.logout();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
