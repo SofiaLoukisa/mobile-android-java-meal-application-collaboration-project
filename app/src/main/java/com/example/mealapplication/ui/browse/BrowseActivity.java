@@ -254,3 +254,35 @@ public class BrowseActivity extends AppCompatActivity {
             });
         }
     }
+
+    private void loadDiverseFeatured() {
+        final List<Meal> combined = new ArrayList<>();
+        final int[] remaining = {FEATURED_CATEGORIES.length};
+
+        for (String cat : FEATURED_CATEGORIES) {
+            ApiClient.getApiService().getMealsByCategory(cat).enqueue(new Callback<MealResponse>() {
+                @Override
+                public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getMeals() != null) {
+                        List<Meal> catMeals = response.body().getMeals();
+                        synchronized (combined) {
+                            // Take first meal from each category for diversity
+                            if (!catMeals.isEmpty()) combined.add(catMeals.get(0));
+                        }
+                    }
+                    synchronized (remaining) {
+                        remaining[0]--;
+                        if (remaining[0] == 0) finishDiverseLoad(combined);
+                    }
+                }
+                @Override
+                public void onFailure(Call<MealResponse> call, Throwable t) {
+                    synchronized (remaining) {
+                        remaining[0]--;
+                        if (remaining[0] == 0) finishDiverseLoad(combined);
+                    }
+                }
+            });
+        }
+    }
+
