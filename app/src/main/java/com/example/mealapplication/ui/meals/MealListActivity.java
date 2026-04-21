@@ -279,3 +279,11 @@ public class MealListActivity extends AppCompatActivity {
         emptyLayout.setVisibility(View.GONE);
     }
 
+    private void showContent(List<Meal> meals) {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        errorLayout.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.GONE);
+        adapter.setMeals(meals);
+    }
+
