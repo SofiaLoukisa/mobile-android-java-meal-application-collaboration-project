@@ -348,3 +348,10 @@ public class BrowseActivity extends AppCompatActivity {
         featuredRecyclerView.setVisibility(View.VISIBLE);
         featuredErrorLayout.setVisibility(View.GONE);
     }
+
+    private void showFeaturedError(String msg) {
+        featuredProgressBar.setVisibility(View.GONE);
+        featuredRecyclerView.setVisibility(View.GONE);
+        featuredErrorLayout.setVisibility(View.VISIBLE);
+        featuredErrorText.setText(msg);
+    }
