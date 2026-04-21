@@ -55,4 +55,21 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         holder.removeButton.setOnClickListener(v -> listener.onRemoveClick(meal));
     }
 
+    @Override
+    public int getItemCount() {
+        return favorites.size();
+    }
 
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+        TextView nameTextView;
+        View removeButton;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.mealImage);
+            nameTextView = itemView.findViewById(R.id.mealName);
+            removeButton = itemView.findViewById(R.id.removeButton);
+        }
+    }
+}
