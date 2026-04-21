@@ -214,3 +214,12 @@ public class BrowseActivity extends AppCompatActivity {
         chip.setTextColor(active ? selectedColor : unselectedColor);
     }
 
+    private void performSearch() {
+        String query = searchEditText.getText().toString().trim();
+        if (!query.isEmpty()) {
+            Intent intent = new Intent(BrowseActivity.this, MealListActivity.class);
+            intent.putExtra(MealListActivity.EXTRA_SEARCH_QUERY, query);
+            startActivity(intent);
+        }
+    }
+
