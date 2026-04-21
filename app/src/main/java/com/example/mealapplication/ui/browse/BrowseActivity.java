@@ -191,3 +191,9 @@ public class BrowseActivity extends AppCompatActivity {
             return true;
         });
     }
+
+    private void selectChip(String filter) {
+        currentFilter = filter;
+        updateChipVisuals();
+        loadFeaturedMeals();
+    }
