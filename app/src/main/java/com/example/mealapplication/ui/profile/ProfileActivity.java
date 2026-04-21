@@ -97,3 +97,43 @@ public class ProfileActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void showChangePasswordDialog() {
+        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
+        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+        layout.setPadding(48, 24, 48, 0);
+
+        EditText currentPass = new EditText(this);
+        currentPass.setHint(getString(R.string.hint_current_password));
+        currentPass.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        layout.addView(currentPass);
+
+        EditText newPass = new EditText(this);
+        newPass.setHint(getString(R.string.hint_new_password));
+        newPass.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(
+                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.topMargin = 16;
+        newPass.setLayoutParams(params);
+        layout.addView(newPass);
+
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.btn_change_password))
+                .setView(layout)
+                .setPositiveButton("Save", (d, w) -> {
+                    String curr = currentPass.getText().toString();
+                    String next = newPass.getText().toString();
+                    if (next.length() < 6) {
+                        android.widget.Toast.makeText(this, R.string.error_password_short, android.widget.Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (userPrefs.changePassword(curr, next)) {
+                        android.widget.Toast.makeText(this, R.string.password_changed, android.widget.Toast.LENGTH_SHORT).show();
+                    } else {
+                        android.widget.Toast.makeText(this, R.string.error_invalid_credentials, android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
