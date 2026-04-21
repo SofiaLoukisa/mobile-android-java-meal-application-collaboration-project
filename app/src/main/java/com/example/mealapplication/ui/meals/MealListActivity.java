@@ -227,3 +227,47 @@ public class MealListActivity extends AppCompatActivity {
         });
     }
 
+    private void fetchMealsForCategories(List<Category> categories) {
+        final List<Meal> allMeals = new ArrayList<>();
+        final int[] remaining = {categories.size()};
+
+        for (Category cat : categories) {
+            ApiClient.getApiService().getMealsByCategory(cat.getName()).enqueue(new Callback<MealResponse>() {
+                @Override
+                public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getMeals() != null) {
+                        synchronized (allMeals) {
+                            allMeals.addAll(response.body().getMeals());
+                        }
+                    }
+                    synchronized (remaining) {
+                        remaining[0]--;
+                        if (remaining[0] == 0) {
+                            runOnUiThread(() -> {
+                                if (allMeals.isEmpty()) {
+                                    showEmpty();
+                                } else {
+                                    showContent(allMeals);
+                                }
+                            });
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<MealResponse> call, Throwable t) {
+                    synchronized (remaining) {
+                        remaining[0]--;
+                        if (remaining[0] == 0) {
+                            runOnUiThread(() -> {
+                                if (allMeals.isEmpty()) {
+                                    showError(getString(R.string.error_loading_data));
+                                } else {
+                                    showContent(allMeals);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    }
