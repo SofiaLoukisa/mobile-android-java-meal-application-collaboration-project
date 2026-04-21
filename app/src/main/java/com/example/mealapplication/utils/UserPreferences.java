@@ -48,3 +48,28 @@ public class UserPreferences {
         return true;
     }
 
+    // ── Login / Session ───────────────────────────────────────────────────────
+
+    public boolean login(String email, String password) {
+        String normalEmail = email.toLowerCase().trim();
+        String storedHash = prefs.getString("user_" + normalEmail + "_password", null);
+        if (storedHash == null) return false;
+        if (!storedHash.equals(hashPassword(password))) return false;
+        prefs.edit()
+                .putBoolean(KEY_LOGGED_IN, true)
+                .putString(KEY_CURRENT_EMAIL, normalEmail)
+                .apply();
+        return true;
+    }
+
+    public void logout() {
+        prefs.edit()
+                .putBoolean(KEY_LOGGED_IN, false)
+                .remove(KEY_CURRENT_EMAIL)
+                .apply();
+    }
+
+    public boolean isLoggedIn() {
+        return prefs.getBoolean(KEY_LOGGED_IN, false);
+    }
+
