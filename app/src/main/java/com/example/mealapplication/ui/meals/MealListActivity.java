@@ -154,3 +154,22 @@ public class MealListActivity extends AppCompatActivity {
             loadAllRecipes();
         }
     }
+
+    /** Search by name first; if no results, try area; if no results, try category */
+    private void searchByName(String query) {
+        ApiClient.getApiService().searchMealsByName(query).enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getMeals() != null && !response.body().getMeals().isEmpty()) {
+                    showContent(response.body().getMeals());
+                } else {
+                    // No name results — try area
+                    searchByArea(query);
+                }
+            }
+            @Override
+            public void onFailure(Call<MealResponse> call, Throwable t) {
+                showError(getString(R.string.error_loading_data));
+            }
+        });
+    }
