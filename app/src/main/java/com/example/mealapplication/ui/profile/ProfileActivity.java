@@ -154,3 +154,31 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
 
+    private void confirmDeleteAccount() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.confirm_delete_title)
+                .setMessage(R.string.confirm_delete_message)
+                .setPositiveButton(R.string.delete, (d, w) -> {
+                    userPrefs.deleteAccount();
+                    // Also clear local DB data
+                    executor.execute(() -> {
+                        AppDatabase.getInstance(this).favoriteMealDao().deleteAll();
+                        AppDatabase.getInstance(this).mealPlanDao().deleteAll();
+                        runOnUiThread(() -> {
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        });
+                    });
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executor.shutdown();
+    }
+}
