@@ -91,3 +91,17 @@ public class MealPlanActivity extends AppCompatActivity {
             runOnUiThread(() -> adapter.setMealPlans(plans));
         });
     }
+
+    private void clearPlan(String day, String slot) {
+        executorService.execute(() -> {
+            AppDatabase.getInstance(this).mealPlanDao().deletePlanForSlot(day, slot);
+            loadMealPlans();
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executorService.shutdown();
+    }
+}
