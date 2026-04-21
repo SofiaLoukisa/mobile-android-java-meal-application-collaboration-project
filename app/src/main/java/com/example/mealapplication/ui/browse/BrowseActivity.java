@@ -209,3 +209,8 @@ public class BrowseActivity extends AppCompatActivity {
         applyChip(chipVegetarian, currentFilter.equals(FILTER_VEGETARIAN), selectedColor, unselectedColor);
     }
 
+    private void applyChip(TextView chip, boolean active, int selectedColor, int unselectedColor) {
+        chip.setBackgroundResource(active ? R.drawable.bg_chip_selected : R.drawable.bg_chip_unselected);
+        chip.setTextColor(active ? selectedColor : unselectedColor);
+    }
+
