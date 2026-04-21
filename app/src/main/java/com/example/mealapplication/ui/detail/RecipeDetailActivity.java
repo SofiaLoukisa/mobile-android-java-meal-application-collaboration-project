@@ -1,13 +1,37 @@
 package com.example.mealapplication.ui.detail;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.mealapplication.R;
+import com.example.mealapplication.local.AppDatabase;
+import com.example.mealapplication.local.FavoriteMealEntity;
+import com.example.mealapplication.local.MealPlanEntity;
+import com.example.mealapplication.model.MealDetail;
 import com.example.mealapplication.model.MealDetailResponse;
 import com.example.mealapplication.remote.ApiClient;
+import com.example.mealapplication.utils.NetworkUtils;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,43 +39,81 @@ import retrofit2.Response;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
-    public static final String EXTRA_MEAL_ID = "meal_id";
+    public static final String EXTRA_MEAL_ID = "extra_meal_id";
 
-    private TextView mealTitle;
-    private TextView mealInstructions;
+    private String mealId;
+    private MealDetail currentMeal;
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+    private ImageView recipeImage;
+    private TextView recipeName, ingredientsList, categoryChip, areaChip;
+    private LinearLayout instructionsContainer;
+    private CircularProgressIndicator progressBar;
+    private View scrollView;
+    private View errorLayout;
+    private TextView errorTextView;
+    private MaterialButton favoriteButton;
+    private boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         setContentView(R.layout.activity_recipe_detail);
 
-        mealTitle = findViewById(R.id.mealTitle);
-        mealInstructions = findViewById(R.id.mealInstructions);
+        mealId = getIntent().getStringExtra(EXTRA_MEAL_ID);
 
-        String mealId = getIntent().getStringExtra(EXTRA_MEAL_ID);
-
-        if (mealId != null) {
-            loadMealDetails(mealId);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        recipeImage = findViewById(R.id.recipeImage);
+        recipeName = findViewById(R.id.recipeName);
+        ingredientsList = findViewById(R.id.ingredientsList);
+        categoryChip = findViewById(R.id.categoryChip);
+        areaChip = findViewById(R.id.areaChip);
+        instructionsContainer = findViewById(R.id.instructionsContainer);
+        progressBar = findViewById(R.id.progressBar);
+        scrollView = findViewById(R.id.scrollView);
+        errorLayout = findViewById(R.id.errorLayout);
+        errorTextView = findViewById(R.id.errorTextView);
+        favoriteButton = findViewById(R.id.favoriteButton);
+
+        favoriteButton.setOnClickListener(v -> toggleFavorite());
+        findViewById(R.id.shareButton).setOnClickListener(v -> shareRecipe());
+        findViewById(R.id.addToPlanButton).setOnClickListener(v -> showDaySelectionDialog());
+        findViewById(R.id.retryButton).setOnClickListener(v -> loadMealDetails());
+
+        loadMealDetails();
     }
 
-    private void loadMealDetails(String mealId) {
-        ApiClient.getApiService().getMealDetails(mealId)
-                .enqueue(new Callback<MealDetailResponse>() {
-                    @Override
-                    public void onResponse(Call<MealDetailResponse> call, Response<MealDetailResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getMeals() != null) {
+    private void loadMealDetails() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            showError(getString(R.string.error_no_internet));
+            return;
+        }
+        showLoading();
+        ApiClient.getApiService().getMealDetails(mealId).enqueue(new Callback<MealDetailResponse>() {
+            @Override
+            public void onResponse(Call<MealDetailResponse> call, Response<MealDetailResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getMeals() != null) {
+                    currentMeal = response.body().getMeals().get(0);
+                    showContent(currentMeal);
+                    checkIfFavorite();
+                } else {
+                    showError(getString(R.string.error_loading_data));
+                }
+            }
 
-                            var meal = response.body().getMeals().get(0);
-
-                            mealTitle.setText(meal.getName());
-                            mealInstructions.setText(meal.getInstructions());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<MealDetailResponse> call, Throwable t) {
-                    }
-                });
+            @Override
+            public void onFailure(Call<MealDetailResponse> call, Throwable t) {
+                showError(getString(R.string.error_loading_data));
+            }
+        });
     }
-}
+
