@@ -241,3 +241,41 @@ public class RecipeDetailActivity extends AppCompatActivity {
             runOnUiThread(this::updateFavoriteButton);
         });
     }
+
+    private void updateFavoriteButton() {
+        if (isFavorite) {
+            favoriteButton.setText(getString(R.string.btn_remove_favorite));
+            favoriteButton.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_nav_favorites));
+            favoriteButton.setIconTint(android.content.res.ColorStateList.valueOf(
+                    ContextCompat.getColor(this, R.color.primary)));
+        } else {
+            favoriteButton.setText(getString(R.string.btn_save_favorite));
+            favoriteButton.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_nav_favorites));
+            favoriteButton.setIconTint(android.content.res.ColorStateList.valueOf(
+                    ContextCompat.getColor(this, R.color.on_surface_variant)));
+        }
+    }
+
+    private void toggleFavorite() {
+        if (currentMeal == null) return;
+        executorService.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(this);
+            FavoriteMealEntity entity = new FavoriteMealEntity(mealId, currentMeal.getName(), currentMeal.getThumbnail());
+            if (isFavorite) {
+                db.favoriteMealDao().delete(entity);
+                isFavorite = false;
+            } else {
+                db.favoriteMealDao().insert(entity);
+                isFavorite = true;
+            }
+            runOnUiThread(() -> {
+                updateFavoriteButton();
+                favoriteButton.animate().scaleX(1.15f).scaleY(1.15f).setDuration(120)
+                        .withEndAction(() -> favoriteButton.animate().scaleX(1f).scaleY(1f).setDuration(120));
+                Toast.makeText(this,
+                        isFavorite ? R.string.added_to_favorites : R.string.removed_from_favorites,
+                        Toast.LENGTH_SHORT).show();
+            });
+        });
+    }
+
