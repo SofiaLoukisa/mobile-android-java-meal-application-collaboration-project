@@ -66,3 +66,4 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHo
         setupSlot(holder.slotEveningSnack, day, "Evening Snack", dayPlans);
         setupSlot(holder.slotDinner, day, "Dinner", dayPlans);
     }
+
