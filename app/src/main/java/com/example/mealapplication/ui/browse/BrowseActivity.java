@@ -93,3 +93,32 @@ public class BrowseActivity extends AppCompatActivity {
         if (chipsScrollView != null) chipsScrollView.scrollTo(0, 0);
     }
 
+    private void initViews() {
+        featuredRecyclerView = findViewById(R.id.featuredRecyclerView);
+        categoriesRecyclerView = findViewById(R.id.categoriesRecyclerView);
+        featuredProgressBar = findViewById(R.id.featuredProgressBar);
+        featuredErrorLayout = findViewById(R.id.featuredErrorLayout);
+        featuredErrorText = findViewById(R.id.featuredErrorText);
+        categoriesProgressBar = findViewById(R.id.categoriesProgressBar);
+        categoriesErrorLayout = findViewById(R.id.categoriesErrorLayout);
+        categoriesErrorText = findViewById(R.id.categoriesErrorText);
+        searchEditText = findViewById(R.id.searchEditText);
+        chipAll = findViewById(R.id.chipAll);
+        chipVegan = findViewById(R.id.chipVegan);
+        chipVegetarian = findViewById(R.id.chipVegetarian);
+        seeAllButton = findViewById(R.id.seeAllButton);
+        contentScrollView = findViewById(R.id.contentScrollView);
+        chipsScrollView = findViewById(R.id.chipsScrollView);
+
+        findViewById(R.id.featuredRetryButton).setOnClickListener(v -> loadFeaturedMeals());
+        findViewById(R.id.categoriesRetryButton).setOnClickListener(v -> loadCategories());
+
+        View accountButton = findViewById(R.id.accountButton);
+        if (accountButton != null) {
+            accountButton.setOnClickListener(v -> {
+                Intent intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+            });
+        }
+    }
+
