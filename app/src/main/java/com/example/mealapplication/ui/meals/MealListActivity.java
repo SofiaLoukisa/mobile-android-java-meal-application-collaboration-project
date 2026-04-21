@@ -49,3 +49,20 @@ public class MealListActivity extends AppCompatActivity {
             searchMeals(search);
         }
     }
+
+    private void loadMealsByCategory(String category) {
+        ApiClient.getApiService().getMealsByCategory(category)
+                .enqueue(new Callback<MealResponse>() {
+                    @Override
+                    public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<Meal> meals = response.body().getMeals();
+                            mealAdapter.setMeals(meals);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MealResponse> call, Throwable t) {
+                    }
+                });
+    }
