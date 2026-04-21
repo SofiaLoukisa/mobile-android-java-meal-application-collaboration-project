@@ -123,3 +123,34 @@ public class MealListActivity extends AppCompatActivity {
         bottomNav.setSelectedItemId(R.id.nav_recipes);
     }
 
+    private void loadMeals() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            showError(getString(R.string.error_no_internet));
+            return;
+        }
+        showLoading();
+
+        if (category != null) {
+            // Load by category
+            ApiClient.getApiService().getMealsByCategory(category).enqueue(new Callback<MealResponse>() {
+                @Override
+                public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getMeals() != null) {
+                        showContent(response.body().getMeals());
+                    } else {
+                        showEmpty();
+                    }
+                }
+                @Override
+                public void onFailure(Call<MealResponse> call, Throwable t) {
+                    showError(getString(R.string.error_loading_data));
+                }
+            });
+        } else if (searchQuery != null) {
+            // Try name search first, then area, then category
+            searchByName(searchQuery);
+        } else {
+            // Load all recipes from all categories
+            loadAllRecipes();
+        }
+    }
