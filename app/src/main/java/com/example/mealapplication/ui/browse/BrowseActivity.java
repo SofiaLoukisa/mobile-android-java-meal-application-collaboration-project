@@ -323,4 +323,10 @@ public class BrowseActivity extends AppCompatActivity {
         });
     }
 
-    
+    private String getDisplayLabel(String filter) {
+        switch (filter) {
+            case FILTER_VEGAN: return "Vegan";
+            case FILTER_VEGETARIAN: return "Vegetarian";
+            default: return "Popular";
+        }
+    }
