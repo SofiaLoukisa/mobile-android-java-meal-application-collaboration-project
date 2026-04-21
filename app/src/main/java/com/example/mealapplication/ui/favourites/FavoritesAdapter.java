@@ -35,4 +35,24 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         notifyDataSetChanged();
     }
 
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_favorite, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        FavoriteMealEntity meal = favorites.get(position);
+        holder.nameTextView.setText(meal.getName());
+        Glide.with(holder.itemView.getContext())
+                .load(meal.getThumbnail())
+                .placeholder(android.R.drawable.ic_menu_report_image)
+                .into(holder.imageView);
+
+        holder.itemView.setOnClickListener(v -> listener.onFavoriteClick(meal));
+        holder.removeButton.setOnClickListener(v -> listener.onRemoveClick(meal));
+    }
+
 
