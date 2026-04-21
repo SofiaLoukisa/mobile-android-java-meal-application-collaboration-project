@@ -122,3 +122,4 @@ public class MealListActivity extends AppCompatActivity {
         super.onResume();
         bottomNav.setSelectedItemId(R.id.nav_recipes);
     }
+
