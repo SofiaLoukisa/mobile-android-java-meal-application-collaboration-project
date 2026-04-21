@@ -299,3 +299,28 @@ public class BrowseActivity extends AppCompatActivity {
         });
     }
 
+    private void loadCategories() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            showCategoriesError(getString(R.string.error_no_internet));
+            return;
+        }
+        showCategoriesLoading();
+        ApiClient.getApiService().getCategories().enqueue(new Callback<CategoryResponse>() {
+            @Override
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Category> categories = response.body().getCategories();
+                    categoriesAdapter.setCategories(categories);
+                    showCategoriesContent();
+                } else {
+                    showCategoriesError(getString(R.string.error_loading_data));
+                }
+            }
+            @Override
+            public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                showCategoriesError(getString(R.string.error_loading_data));
+            }
+        });
+    }
+
+    
