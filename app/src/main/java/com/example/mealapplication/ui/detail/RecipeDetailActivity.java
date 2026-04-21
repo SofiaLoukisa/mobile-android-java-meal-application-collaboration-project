@@ -161,3 +161,83 @@ public class RecipeDetailActivity extends AppCompatActivity {
         }
         ingredientsList.setText(spannable);
     }
+
+    private void buildInstructionSteps(String instructions) {
+        instructionsContainer.removeAllViews();
+        if (instructions == null || instructions.isEmpty()) return;
+
+        // Split by double newline or single newline, filter empty lines
+        String[] rawLines = instructions.split("\\r?\\n");
+        int stepNumber = 1;
+        for (String line : rawLines) {
+            String trimmed = line.trim();
+            // Skip very short lines (just numbers or empty)
+            if (trimmed.isEmpty() || trimmed.matches("^\\d+\\.?$")) continue;
+            // Remove leading step numbers like "1." or "Step 1:"
+            String stepText = trimmed.replaceAll("^\\d+[.:]?\\s*", "").trim();
+            if (stepText.isEmpty()) continue;
+
+            addStepView(stepNumber, stepText);
+            stepNumber++;
+        }
+    }
+
+    private void addStepView(int number, String text) {
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        rowParams.setMargins(0, 0, 0, dpToPx(14));
+        row.setLayoutParams(rowParams);
+
+        // Number circle
+        TextView numberView = new TextView(this);
+        int size = dpToPx(28);
+        LinearLayout.LayoutParams numParams = new LinearLayout.LayoutParams(size, size);
+        numParams.setMarginEnd(dpToPx(12));
+        numParams.topMargin = dpToPx(2);
+        numberView.setLayoutParams(numParams);
+        numberView.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_step_circle));
+        numberView.setText(String.valueOf(number));
+        numberView.setTextColor(0xFFFFFFFF);
+        numberView.setTextSize(11f);
+        numberView.setGravity(Gravity.CENTER);
+        numberView.setTypeface(null, android.graphics.Typeface.BOLD);
+
+        // Step text
+        TextView textView = new TextView(this);
+        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        textView.setLayoutParams(textParams);
+        textView.setText(text);
+        textView.setTextSize(14f);
+        textView.setTextColor(ContextCompat.getColor(this, R.color.on_surface));
+        textView.setLineSpacing(dpToPx(2), 1.0f);
+
+        row.addView(numberView);
+        row.addView(textView);
+        instructionsContainer.addView(row);
+    }
+
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
+    }
+
+    private void showError(String message) {
+        progressBar.setVisibility(View.GONE);
+        scrollView.setVisibility(View.GONE);
+        if (errorLayout != null) {
+            errorLayout.setVisibility(View.VISIBLE);
+            if (errorTextView != null) errorTextView.setText(message);
+        } else {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void checkIfFavorite() {
+        executorService.execute(() -> {
+            isFavorite = AppDatabase.getInstance(this).favoriteMealDao().isFavorite(mealId);
+            runOnUiThread(this::updateFavoriteButton);
+        });
+    }
