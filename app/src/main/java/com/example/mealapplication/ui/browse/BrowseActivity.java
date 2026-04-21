@@ -367,3 +367,11 @@ public class BrowseActivity extends AppCompatActivity {
         categoriesRecyclerView.setVisibility(View.VISIBLE);
         categoriesErrorLayout.setVisibility(View.GONE);
     }
+
+    private void showCategoriesError(String msg) {
+        categoriesProgressBar.setVisibility(View.GONE);
+        categoriesRecyclerView.setVisibility(View.GONE);
+        categoriesErrorLayout.setVisibility(View.VISIBLE);
+        categoriesErrorText.setText(msg);
+    }
+}
