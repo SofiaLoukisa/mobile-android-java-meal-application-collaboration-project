@@ -223,3 +223,34 @@ public class BrowseActivity extends AppCompatActivity {
         }
     }
 
+    private void loadFeaturedMeals() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            showFeaturedError(getString(R.string.error_no_internet));
+            return;
+        }
+        showFeaturedLoading();
+
+        if (currentFilter.equals(FILTER_ALL)) {
+            loadDiverseFeatured();
+        } else {
+            ApiClient.getApiService().getMealsByCategory(currentFilter).enqueue(new Callback<MealResponse>() {
+                @Override
+                public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getMeals() != null) {
+                        List<Meal> meals = response.body().getMeals();
+                        if (meals.size() > 6) meals = meals.subList(0, 6);
+                        final List<Meal> finalMeals = meals;
+                        featuredAdapter.setMeals(finalMeals);
+                        featuredAdapter.setTag(getDisplayLabel(currentFilter));
+                        showFeaturedContent();
+                    } else {
+                        showFeaturedError(getString(R.string.error_loading_data));
+                    }
+                }
+                @Override
+                public void onFailure(Call<MealResponse> call, Throwable t) {
+                    showFeaturedError(getString(R.string.error_loading_data));
+                }
+            });
+        }
+    }
