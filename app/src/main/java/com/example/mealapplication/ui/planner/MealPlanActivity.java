@@ -78,3 +78,16 @@ public class MealPlanActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bottomNav.setSelectedItemId(R.id.nav_planner);
+        loadMealPlans();
+    }
+
+    private void loadMealPlans() {
+        executorService.execute(() -> {
+            List<MealPlanEntity> plans = AppDatabase.getInstance(this).mealPlanDao().getAllMealPlans();
+            runOnUiThread(() -> adapter.setMealPlans(plans));
+        });
+    }
