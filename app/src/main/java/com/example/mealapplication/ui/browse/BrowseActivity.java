@@ -342,3 +342,9 @@ public class BrowseActivity extends AppCompatActivity {
         featuredRecyclerView.setVisibility(View.GONE);
         featuredErrorLayout.setVisibility(View.GONE);
     }
+
+    private void showFeaturedContent() {
+        featuredProgressBar.setVisibility(View.GONE);
+        featuredRecyclerView.setVisibility(View.VISIBLE);
+        featuredErrorLayout.setVisibility(View.GONE);
+    }
