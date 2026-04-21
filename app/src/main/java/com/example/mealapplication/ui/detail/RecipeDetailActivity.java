@@ -117,3 +117,47 @@ public class RecipeDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(View.GONE);
+        if (errorLayout != null) errorLayout.setVisibility(View.GONE);
+    }
+
+    private void showContent(MealDetail meal) {
+        progressBar.setVisibility(View.GONE);
+        scrollView.setVisibility(View.VISIBLE);
+        if (errorLayout != null) errorLayout.setVisibility(View.GONE);
+
+        recipeName.setText(meal.getName());
+        categoryChip.setText(meal.getCategory());
+        areaChip.setText(meal.getArea());
+
+        Glide.with(this).load(meal.getThumbnail()).into(recipeImage);
+
+        // Render ingredients with green bullet
+        buildIngredientsList(meal);
+
+        // Render numbered instruction steps
+        buildInstructionSteps(meal.getInstructions());
+    }
+
+    private void buildIngredientsList(MealDetail meal) {
+        int green = ContextCompat.getColor(this, R.color.primary);
+        StringBuilder sb = new StringBuilder();
+        for (String ingredient : meal.getIngredients()) {
+            sb.append("● ").append(ingredient).append("\n");
+        }
+        String text = sb.toString().trim();
+        SpannableString spannable = new SpannableString(text);
+        int start = 0;
+        while (start < text.length()) {
+            int bulletEnd = text.indexOf(' ', start);
+            if (bulletEnd == -1) break;
+            if (text.charAt(start) == '●') {
+                spannable.setSpan(new ForegroundColorSpan(green), start, bulletEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            int nextLine = text.indexOf('\n', start);
+            start = (nextLine == -1) ? text.length() : nextLine + 1;
+        }
+        ingredientsList.setText(spannable);
+    }
