@@ -73,3 +73,38 @@ public class UserPreferences {
         return prefs.getBoolean(KEY_LOGGED_IN, false);
     }
 
+    // ── Current user ─────────────────────────────────────────────────────────
+
+    public String getCurrentEmail() {
+        return prefs.getString(KEY_CURRENT_EMAIL, "");
+    }
+
+    public String getCurrentName() {
+        String email = getCurrentEmail();
+        return prefs.getString("user_" + email + "_name", "");
+    }
+
+    public boolean changePassword(String currentPassword, String newPassword) {
+        String email = getCurrentEmail();
+        String stored = prefs.getString("user_" + email + "_password", null);
+        if (stored == null || !stored.equals(hashPassword(currentPassword))) return false;
+        prefs.edit().putString("user_" + email + "_password", hashPassword(newPassword)).apply();
+        return true;
+    }
+
+    public void changeName(String newName) {
+        String email = getCurrentEmail();
+        prefs.edit().putString("user_" + email + "_name", newName.trim()).apply();
+    }
+
+    public void deleteAccount() {
+        String email = getCurrentEmail();
+        prefs.edit()
+                .remove("user_" + email + "_name")
+                .remove("user_" + email + "_email")
+                .remove("user_" + email + "_password")
+                .putBoolean(KEY_LOGGED_IN, false)
+                .remove(KEY_CURRENT_EMAIL)
+                .apply();
+    }
+}
