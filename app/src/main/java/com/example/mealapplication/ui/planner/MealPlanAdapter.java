@@ -32,3 +32,16 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHo
     public MealPlanAdapter(OnMealPlanClickListener listener) {
         this.listener = listener;
     }
+
+    public void setMealPlans(List<MealPlanEntity> plans) {
+        this.mealPlans.clear();
+        for (MealPlanEntity plan : plans) {
+            Map<String, MealPlanEntity> dayMap = mealPlans.get(plan.getDayOfWeek());
+            if (dayMap == null) {
+                dayMap = new HashMap<>();
+                mealPlans.put(plan.getDayOfWeek(), dayMap);
+            }
+            dayMap.put(plan.getMealSlot(), plan);
+        }
+        notifyDataSetChanged();
+    }
