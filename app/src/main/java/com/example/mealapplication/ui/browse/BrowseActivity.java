@@ -122,3 +122,18 @@ public class BrowseActivity extends AppCompatActivity {
         }
     }
 
+    private void setupRecyclerViews() {
+        featuredAdapter = new MealAdapter(meal -> openRecipeDetail(meal.getId()));
+        featuredRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        featuredRecyclerView.setAdapter(featuredAdapter);
+
+        categoriesAdapter = new CategoryAdapter(category -> {
+            Intent intent = new Intent(BrowseActivity.this, MealListActivity.class);
+            intent.putExtra(MealListActivity.EXTRA_CATEGORY, category.getName());
+            intent.putExtra(MealListActivity.EXTRA_TITLE, category.getName());
+            startActivity(intent);
+        });
+        categoriesRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        categoriesRecyclerView.setAdapter(categoriesAdapter);
+    }
+
