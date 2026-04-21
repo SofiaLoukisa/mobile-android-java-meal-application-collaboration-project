@@ -361,3 +361,9 @@ public class BrowseActivity extends AppCompatActivity {
         categoriesRecyclerView.setVisibility(View.GONE);
         categoriesErrorLayout.setVisibility(View.GONE);
     }
+
+    private void showCategoriesContent() {
+        categoriesProgressBar.setVisibility(View.GONE);
+        categoriesRecyclerView.setVisibility(View.VISIBLE);
+        categoriesErrorLayout.setVisibility(View.GONE);
+    }
