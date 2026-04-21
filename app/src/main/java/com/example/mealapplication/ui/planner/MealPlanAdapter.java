@@ -67,3 +67,47 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHo
         setupSlot(holder.slotDinner, day, "Dinner", dayPlans);
     }
 
+    private void setupSlot(View slotView, String day, String slotName, Map<String, MealPlanEntity> dayPlans) {
+        TextView title = slotView.findViewById(R.id.slotTitle);
+        View container = slotView.findViewById(R.id.mealContainer);
+        TextView emptyText = slotView.findViewById(R.id.emptyStateText);
+        ImageView image = slotView.findViewById(R.id.mealImage);
+        TextView name = slotView.findViewById(R.id.mealName);
+        ImageView clear = slotView.findViewById(R.id.clearButton);
+
+        title.setText(slotName);
+
+        MealPlanEntity plan = (dayPlans != null) ? dayPlans.get(slotName) : null;
+        if (plan != null) {
+            container.setVisibility(View.VISIBLE);
+            emptyText.setVisibility(View.GONE);
+            name.setText(plan.getMealName());
+            Glide.with(slotView.getContext()).load(plan.getMealThumbnail()).into(image);
+            container.setOnClickListener(v -> listener.onMealClick(plan.getMealId()));
+            clear.setOnClickListener(v -> listener.onClearClick(day, slotName));
+        } else {
+            container.setVisibility(View.GONE);
+            emptyText.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return days.length;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView dayTextView;
+        View slotBreakfast, slotSnack, slotLunch, slotEveningSnack, slotDinner;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            dayTextView = itemView.findViewById(R.id.dayOfWeek);
+            slotBreakfast = itemView.findViewById(R.id.slotBreakfast);
+            slotSnack = itemView.findViewById(R.id.slotSnack);
+            slotLunch = itemView.findViewById(R.id.slotLunch);
+            slotEveningSnack = itemView.findViewById(R.id.slotEveningSnack);
+            slotDinner = itemView.findViewById(R.id.slotDinner);
+        }
+    }
+}
