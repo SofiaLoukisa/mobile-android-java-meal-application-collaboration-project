@@ -51,3 +51,39 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void attemptLogin() {
+        String email = text(emailEditText);
+        String password = text(passwordEditText);
+
+        if (email.isEmpty() || password.isEmpty()) {
+            showError(getString(R.string.error_empty_fields));
+            return;
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            showError(getString(R.string.error_invalid_email));
+            return;
+        }
+
+        if (userPrefs.login(email, password)) {
+            goToMain();
+        } else {
+            showError(getString(R.string.error_invalid_credentials));
+        }
+    }
+
+    private void goToMain() {
+        Intent intent = new Intent(this, BrowseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void showError(String msg) {
+        errorTextView.setText(msg);
+        errorTextView.setVisibility(View.VISIBLE);
+    }
+
+    private String text(TextInputEditText view) {
+        return view.getText() != null ? view.getText().toString().trim() : "";
+    }
+}
