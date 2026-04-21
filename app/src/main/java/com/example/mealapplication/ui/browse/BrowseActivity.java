@@ -137,3 +137,21 @@ public class BrowseActivity extends AppCompatActivity {
         categoriesRecyclerView.setAdapter(categoriesAdapter);
     }
 
+    private void setupChips() {
+        chipAll.setOnClickListener(v -> selectChip(FILTER_ALL));
+        chipVegan.setOnClickListener(v -> selectChip(FILTER_VEGAN));
+        chipVegetarian.setOnClickListener(v -> selectChip(FILTER_VEGETARIAN));
+
+        seeAllButton.setOnClickListener(v -> {
+            Intent intent = new Intent(BrowseActivity.this, MealListActivity.class);
+            if (currentFilter.equals(FILTER_ALL)) {
+                // Show all recipes
+                intent.putExtra(MealListActivity.EXTRA_TITLE, getString(R.string.all_recipes));
+            } else {
+                intent.putExtra(MealListActivity.EXTRA_CATEGORY, currentFilter);
+                intent.putExtra(MealListActivity.EXTRA_TITLE, getDisplayLabel(currentFilter));
+            }
+            startActivity(intent);
+        });
+    }
+
