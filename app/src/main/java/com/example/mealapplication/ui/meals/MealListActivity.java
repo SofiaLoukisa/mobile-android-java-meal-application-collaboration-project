@@ -191,3 +191,21 @@ public class MealListActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void searchByCategory(String query) {
+        ApiClient.getApiService().getMealsByCategory(query).enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getMeals() != null && !response.body().getMeals().isEmpty()) {
+                    showContent(response.body().getMeals());
+                } else {
+                    showEmpty();
+                }
+            }
+            @Override
+            public void onFailure(Call<MealResponse> call, Throwable t) {
+                showError(getString(R.string.error_loading_data));
+            }
+        });
+    }
+
