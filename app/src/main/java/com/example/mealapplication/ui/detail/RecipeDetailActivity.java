@@ -279,3 +279,15 @@ public class RecipeDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void shareRecipe() {
+        if (currentMeal == null) return;
+        String source = (currentMeal.getSourceUrl() != null && !currentMeal.getSourceUrl().isEmpty())
+                ? currentMeal.getSourceUrl() : "https://www.themealdb.com";
+        String shareText = getString(R.string.share_body, currentMeal.getName(), source);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject, currentMeal.getName()));
+        intent.putExtra(Intent.EXTRA_TEXT, shareText);
+        startActivity(Intent.createChooser(intent, getString(R.string.share_chooser_title)));
+    }
+
