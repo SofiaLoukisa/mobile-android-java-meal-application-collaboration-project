@@ -197,3 +197,15 @@ public class BrowseActivity extends AppCompatActivity {
         updateChipVisuals();
         loadFeaturedMeals();
     }
+
+    private void updateChipVisuals() {
+        // Use setBackgroundResource per chip to avoid drawable-instance sharing
+        // which corrupts corner radius when the same Drawable object is reused
+        int selectedColor = ContextCompat.getColor(this, R.color.chip_selected_text);
+        int unselectedColor = ContextCompat.getColor(this, R.color.chip_unselected_text);
+
+        applyChip(chipAll, currentFilter.equals(FILTER_ALL), selectedColor, unselectedColor);
+        applyChip(chipVegan, currentFilter.equals(FILTER_VEGAN), selectedColor, unselectedColor);
+        applyChip(chipVegetarian, currentFilter.equals(FILTER_VEGETARIAN), selectedColor, unselectedColor);
+    }
+
