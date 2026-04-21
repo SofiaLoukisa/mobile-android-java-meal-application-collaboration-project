@@ -226,3 +226,4 @@ public class MealListActivity extends AppCompatActivity {
             }
         });
     }
+
