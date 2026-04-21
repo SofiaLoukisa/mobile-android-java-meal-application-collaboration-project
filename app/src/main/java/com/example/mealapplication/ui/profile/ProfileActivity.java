@@ -50,3 +50,29 @@ public class ProfileActivity extends AppCompatActivity {
         findViewById(R.id.deleteAccountButton).setOnClickListener(v -> confirmDeleteAccount());
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadUserInfo();
+        loadStats();
+    }
+
+    private void loadUserInfo() {
+        String name = userPrefs.getCurrentName();
+        String email = userPrefs.getCurrentEmail();
+        profileName.setText(name.isEmpty() ? "User" : name);
+        profileEmail.setText(email);
+        avatarText.setText(name.isEmpty() ? "U" : String.valueOf(Character.toUpperCase(name.charAt(0))));
+    }
+
+    private void loadStats() {
+        executor.execute(() -> {
+            int favs = AppDatabase.getInstance(this).favoriteMealDao().getAllFavorites().size();
+            int plans = AppDatabase.getInstance(this).mealPlanDao().getAllMealPlans().size();
+            runOnUiThread(() -> {
+                favoritesCount.setText(String.valueOf(favs));
+                planCount.setText(String.valueOf(plans));
+            });
+        });
+    }
+
