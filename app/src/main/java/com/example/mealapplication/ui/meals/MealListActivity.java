@@ -271,3 +271,11 @@ public class MealListActivity extends AppCompatActivity {
             });
         }
     }
+
+    private void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        errorLayout.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.GONE);
+    }
+
