@@ -330,3 +330,9 @@ public class BrowseActivity extends AppCompatActivity {
             default: return "Popular";
         }
     }
+
+    private void openRecipeDetail(String mealId) {
+        Intent intent = new Intent(this, com.example.mealapplication.ui.detail.RecipeDetailActivity.class);
+        intent.putExtra(com.example.mealapplication.ui.detail.RecipeDetailActivity.EXTRA_MEAL_ID, mealId);
+        startActivity(intent);
+    }
