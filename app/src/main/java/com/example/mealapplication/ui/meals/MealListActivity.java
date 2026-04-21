@@ -294,3 +294,11 @@ public class MealListActivity extends AppCompatActivity {
         emptyLayout.setVisibility(View.VISIBLE);
     }
 
+    private void showError(String message) {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        errorLayout.setVisibility(View.VISIBLE);
+        emptyLayout.setVisibility(View.GONE);
+        errorTextView.setText(message);
+    }
+}
