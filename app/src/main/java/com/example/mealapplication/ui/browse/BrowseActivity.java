@@ -336,3 +336,9 @@ public class BrowseActivity extends AppCompatActivity {
         intent.putExtra(com.example.mealapplication.ui.detail.RecipeDetailActivity.EXTRA_MEAL_ID, mealId);
         startActivity(intent);
     }
+
+    private void showFeaturedLoading() {
+        featuredProgressBar.setVisibility(View.VISIBLE);
+        featuredRecyclerView.setVisibility(View.GONE);
+        featuredErrorLayout.setVisibility(View.GONE);
+    }
