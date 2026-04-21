@@ -286,3 +286,16 @@ public class BrowseActivity extends AppCompatActivity {
         }
     }
 
+    private void finishDiverseLoad(List<Meal> combined) {
+        runOnUiThread(() -> {
+            if (combined.isEmpty()) {
+                showFeaturedError(getString(R.string.error_loading_data));
+            } else {
+                List<Meal> display = combined.size() > 6 ? combined.subList(0, 6) : combined;
+                featuredAdapter.setMeals(display);
+                featuredAdapter.setTag("Popular");
+                showFeaturedContent();
+            }
+        });
+    }
+
