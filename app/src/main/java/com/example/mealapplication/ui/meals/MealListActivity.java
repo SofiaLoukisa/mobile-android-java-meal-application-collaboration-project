@@ -82,3 +82,43 @@ public class MealListActivity extends AppCompatActivity {
             setTitle(getString(R.string.all_recipes));
         }
 
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        adapter = new MealAdapter(meal -> {
+            Intent intent = new Intent(MealListActivity.this, RecipeDetailActivity.class);
+            intent.putExtra(RecipeDetailActivity.EXTRA_MEAL_ID, meal.getId());
+            startActivity(intent);
+        });
+        if (category != null) {
+            adapter.setTag(category);
+        }
+        recyclerView.setAdapter(adapter);
+
+        findViewById(R.id.retryButton).setOnClickListener(v -> loadMeals());
+
+        bottomNav = findViewById(R.id.bottomNavigation);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_recipes) return true;
+            Intent intent;
+            if (id == R.id.nav_home) {
+                intent = new Intent(this, BrowseActivity.class);
+            } else if (id == R.id.nav_favorites) {
+                intent = new Intent(this, FavoritesActivity.class);
+            } else if (id == R.id.nav_planner) {
+                intent = new Intent(this, MealPlanActivity.class);
+            } else {
+                return false;
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            return true;
+        });
+
+        loadMeals();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bottomNav.setSelectedItemId(R.id.nav_recipes);
+    }
