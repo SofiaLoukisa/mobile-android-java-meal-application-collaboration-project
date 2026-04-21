@@ -170,3 +170,24 @@ public class BrowseActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setupNavigation() {
+        bottomNav = findViewById(R.id.bottomNavigation);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) return true;
+            Intent intent;
+            if (id == R.id.nav_recipes) {
+                intent = new Intent(this, MealListActivity.class);
+            } else if (id == R.id.nav_favorites) {
+                intent = new Intent(this, FavoritesActivity.class);
+            } else if (id == R.id.nav_planner) {
+                intent = new Intent(this, MealPlanActivity.class);
+            } else {
+                return false;
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            return true;
+        });
+    }
