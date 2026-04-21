@@ -31,3 +31,20 @@ public class UserPreferences {
         }
     }
 
+// ── Registration ──────────────────────────────────────────────────────────
+
+    public boolean isEmailRegistered(String email) {
+        return prefs.contains("user_" + email.toLowerCase() + "_password");
+    }
+
+    public boolean registerUser(String name, String email, String password) {
+        if (isEmailRegistered(email)) return false;
+        String normalEmail = email.toLowerCase().trim();
+        prefs.edit()
+                .putString("user_" + normalEmail + "_name", name.trim())
+                .putString("user_" + normalEmail + "_email", normalEmail)
+                .putString("user_" + normalEmail + "_password", hashPassword(password))
+                .apply();
+        return true;
+    }
+
