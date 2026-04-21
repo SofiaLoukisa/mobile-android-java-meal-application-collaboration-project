@@ -45,3 +45,24 @@ public class MealPlanAdapter extends RecyclerView.Adapter<MealPlanAdapter.ViewHo
         }
         notifyDataSetChanged();
     }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_meal_plan, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String day = days[position];
+        holder.dayTextView.setText(day);
+
+        Map<String, MealPlanEntity> dayPlans = mealPlans.get(day);
+
+        setupSlot(holder.slotBreakfast, day, "Breakfast", dayPlans);
+        setupSlot(holder.slotSnack, day, "Snack", dayPlans);
+        setupSlot(holder.slotLunch, day, "Lunch", dayPlans);
+        setupSlot(holder.slotEveningSnack, day, "Evening Snack", dayPlans);
+        setupSlot(holder.slotDinner, day, "Dinner", dayPlans);
+    }
