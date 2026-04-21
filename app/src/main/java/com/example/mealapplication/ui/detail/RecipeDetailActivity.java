@@ -291,3 +291,56 @@ public class RecipeDetailActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, getString(R.string.share_chooser_title)));
     }
 
+    private void showDaySelectionDialog() {
+        String[] days = {getString(R.string.monday), getString(R.string.tuesday),
+                getString(R.string.wednesday), getString(R.string.thursday),
+                getString(R.string.friday), getString(R.string.saturday), getString(R.string.sunday)};
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.select_day_title)
+                .setItems(days, (dialog, which) -> showSlotSelectionDialog(days[which]))
+                .show();
+    }
+
+    private void showSlotSelectionDialog(String day) {
+        String[] slots = {getString(R.string.slot_breakfast), getString(R.string.slot_snack),
+                getString(R.string.slot_lunch), getString(R.string.slot_evening_snack),
+                getString(R.string.slot_dinner)};
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.select_slot_title)
+                .setItems(slots, (dialog, which) -> checkSlotOccupied(day, slots[which]))
+                .show();
+    }
+
+    private void checkSlotOccupied(String day, String slot) {
+        executorService.execute(() -> {
+            MealPlanEntity existing = AppDatabase.getInstance(this).mealPlanDao().getPlanForSlot(day, slot);
+            runOnUiThread(() -> {
+                if (existing != null) {
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.confirm_replace_title)
+                            .setMessage(getString(R.string.confirm_replace_message, day, slot))
+                            .setPositiveButton(R.string.replace, (d, w) -> saveToPlan(day, slot))
+                            .setNegativeButton(R.string.cancel, null)
+                            .show();
+                } else {
+                    saveToPlan(day, slot);
+                }
+            });
+        });
+    }
+
+    private void saveToPlan(String day, String slot) {
+        executorService.execute(() -> {
+            MealPlanEntity plan = new MealPlanEntity(day, slot, mealId, currentMeal.getName(), currentMeal.getThumbnail());
+            AppDatabase.getInstance(this).mealPlanDao().insertOrUpdate(plan);
+            runOnUiThread(() -> Toast.makeText(this,
+                    getString(R.string.planned_for, day, slot), Toast.LENGTH_SHORT).show());
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executorService.shutdown();
+    }
+}
