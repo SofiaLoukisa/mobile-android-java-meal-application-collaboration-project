@@ -81,4 +81,42 @@ public class FavoritesActivity extends AppCompatActivity {
         });
     }
 
-  
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bottomNav.setSelectedItemId(R.id.nav_favorites);
+        loadFavorites();
+    }
+
+    private void loadFavorites() {
+        executorService.execute(() -> {
+            List<FavoriteMealEntity> favorites = AppDatabase.getInstance(this).favoriteMealDao().getAllFavorites();
+            runOnUiThread(() -> {
+                if (favorites.isEmpty()) {
+                    emptyFavoritesLayout.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    emptyFavoritesLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    adapter.setFavorites(favorites);
+                }
+            });
+        });
+    }
+
+    private void removeFavorite(FavoriteMealEntity meal) {
+        executorService.execute(() -> {
+            AppDatabase.getInstance(this).favoriteMealDao().delete(meal);
+            runOnUiThread(() -> {
+                Toast.makeText(this, R.string.removed_from_favorites, Toast.LENGTH_SHORT).show();
+                loadFavorites();
+            });
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executorService.shutdown();
+    }
+}
