@@ -209,3 +209,20 @@ public class MealListActivity extends AppCompatActivity {
         });
     }
 
+    /** Load ALL recipes by fetching every category, then all meals per category */
+    private void loadAllRecipes() {
+        ApiClient.getApiService().getCategories().enqueue(new Callback<CategoryResponse>() {
+            @Override
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getCategories() != null) {
+                    fetchMealsForCategories(response.body().getCategories());
+                } else {
+                    showError(getString(R.string.error_loading_data));
+                }
+            }
+            @Override
+            public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                showError(getString(R.string.error_loading_data));
+            }
+        });
+    }
