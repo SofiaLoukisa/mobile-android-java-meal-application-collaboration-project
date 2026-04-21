@@ -6,12 +6,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mealapplication.R;
-//import com.example.mealapplication.model.MealDetailResponse;
-//import com.example.mealapplication.remote.ApiClient;
-//
-//import retrofit2.Call;
-//import retrofit2.Callback;
-//import retrofit2.Response;
+import com.example.mealapplication.model.MealDetailResponse;
+import com.example.mealapplication.remote.ApiClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
@@ -35,3 +35,23 @@ public class RecipeDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void loadMealDetails(String mealId) {
+        ApiClient.getApiService().getMealDetails(mealId)
+                .enqueue(new Callback<MealDetailResponse>() {
+                    @Override
+                    public void onResponse(Call<MealDetailResponse> call, Response<MealDetailResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getMeals() != null) {
+
+                            var meal = response.body().getMeals().get(0);
+
+                            mealTitle.setText(meal.getName());
+                            mealInstructions.setText(meal.getInstructions());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MealDetailResponse> call, Throwable t) {
+                    }
+                });
+    }
+}
