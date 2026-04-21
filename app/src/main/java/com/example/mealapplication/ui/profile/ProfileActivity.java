@@ -76,3 +76,24 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void showChangeNameDialog() {
+        View view = getLayoutInflater().inflate(android.R.layout.simple_list_item_1, null);
+        EditText input = new EditText(this);
+        input.setHint(getString(R.string.hint_name));
+        input.setText(userPrefs.getCurrentName());
+        input.setPadding(48, 24, 48, 24);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Edit Name")
+                .setView(input)
+                .setPositiveButton("Save", (d, w) -> {
+                    String newName = input.getText().toString().trim();
+                    if (!newName.isEmpty()) {
+                        userPrefs.changeName(newName);
+                        loadUserInfo();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
