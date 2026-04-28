@@ -1,11 +1,14 @@
 package com.example.mealapplication.model;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class MealResponse {
-    @SerializedName("com/example/mealapplication/ui/meals")
+    @SerializedName("meals")
     private List<Meal> meals;
 
-    public List<Meal> getMeals() { return meals; }
+    public List<Meal> getMeals() {
+        return meals;
+    }
 }
