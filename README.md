@@ -1,4 +1,4 @@
-# 🍽️ MealApplication
+# <h3 align="center">🍽️ MealApplication</h3>
 
 <p align="center">
   <img src="screenshots/open-app.png" width="200"/>
@@ -43,37 +43,37 @@ Built with clean architecture in mind, it demonstrates real-world Android patter
 
 ---
 
-## 📱 Screenshots
+## <h3 align="center">📱 Screenshots</h3>
 
-### 🔓 Open & Authentication
+### <h3 align="center">🔓 Open & Authentication</h3>
 <p align="center">
   <img src="screenshots/open-app.png" width="220"/>
   <img src="screenshots/login-page.png" width="220"/>
   <img src="screenshots/signup-page.png" width="220"/>
 </p>
 
-### 🏠 Homepage & Filters
+### <h3 align="center">🏠 Homepage & Filters</h3>
 <p align="center">
   <img src="screenshots/homepage.png" width="220"/>
   <img src="screenshots/vegan-homepage.png" width="220"/>
   <img src="screenshots/vegeterian-homepage.png" width="220"/>
 </p>
 
-### 🔍 Search & Categories
+### <h3 align="center">🔍 Search & Categories</h3>
 <p align="center">
   <img src="screenshots/search-page.png" width="220"/>
   <img src="screenshots/categories-homepage.png" width="220"/>
   <img src="screenshots/all-recipes-page.png" width="220"/>
 </p>
 
-### ❤️ Favorites & Planner
+### <h3 align="center">❤️ Favorites & Planner</h3>
 <p align="center">
   <img src="screenshots/favorites-meals.png" width="220"/>
   <img src="screenshots/no-favorite-meals.png" width="220"/>
   <img src="screenshots/weekly-meal-planner.png" width="220"/>
 </p>
 
-### 👤 Account
+### <h3 align="center">👤 Account</h3>
 <p align="center">
   <img src="screenshots/user-settings.png" width="220"/>
   <img src="screenshots/account-creation-example.png" width="220"/>
