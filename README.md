@@ -198,7 +198,7 @@ The app gracefully handles:
 ## 🚀 Future Improvements
 
 - [ ] Firebase Authentication
-- [ ] Dark Mode support
+- [Χ] Dark Mode support
 - [ ] Nutritional information per recipe
 - [ ] Shopping list generator
 - [ ] Meal sharing via social media
