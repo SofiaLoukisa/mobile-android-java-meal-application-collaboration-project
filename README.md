@@ -66,6 +66,12 @@ Built with clean architecture in mind, it demonstrates real-world Android patter
   <img src="screenshots/all-recipes-page.png" width="220"/>
 </p>
 
+### <h3 align="center">📋 Recipe Detail</h3>
+<p align="center">
+  <img src="screenshots/open-recipe-ingredients.png" width="220"/>
+  <img src="screenshots/open-recipe-instructions.png" width="220"/>
+</p>
+
 ### <h3 align="center">❤️ Favorites & Planner</h3>
 <p align="center">
   <img src="screenshots/favorites-meals.png" width="220"/>
