@@ -1,11 +1,11 @@
-package com.example.testmealplanner;
+package com.example.mealapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.testmealplanner.ui.auth.LoginActivity;
-import com.example.testmealplanner.ui.browse.BrowseActivity;
-import com.example.testmealplanner.utils.UserPreferences;
+import com.example.mealapplication.ui.auth.LoginActivity;
+import com.example.mealapplication.ui.browse.BrowseActivity;
+import com.example.mealapplication.utils.UserPreferences;
 
 public class MainActivity extends AppCompatActivity {
     @Override
