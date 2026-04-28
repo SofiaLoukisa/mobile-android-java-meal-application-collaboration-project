@@ -231,4 +231,3 @@ Contributions are welcome! If you'd like to improve this project:
 ## 📄 License
 
 This project is developed for educational purposes and is licensed under the [MIT License](LICENSE).
-```
