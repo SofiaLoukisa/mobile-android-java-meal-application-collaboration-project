@@ -1,5 +1,3 @@
-
-```markdown
 # 🍽️ MealApplication
 
 <p align="center">
